@@ -1,43 +1,72 @@
-async function handleFile(file) {
-    if (!file.type.startsWith('audio/')) {
-        alert('אנא העלה קובץ אודיו בלבד');
-        return;
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const progress = document.getElementById('progress');
+    const status = document.getElementById('status');
+    const transcription = document.getElementById('transcription');
 
-    status.textContent = 'מעבד את הקובץ...';
-    progress.style.display = 'block';
-    transcription.textContent = '';
+    // יצירת מופע של GROQ
+    const groq = new Groq({
+        apiKey: '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'
+    });
 
-    try {
-        // יצירת FormData
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('model', 'whisper-large-v3-turbo');
-        formData.append('language', 'he');
+    // טיפול בגרירת קבצים
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
 
-        // שליחה ל-GROQ
-        const response = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer YOUR_GROQ_API_KEY'
-                // שים לב: לא מוסיפים Content-Type כי FormData מגדיר אותו אוטומטית
-            },
-            body: formData
-        });
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error?.message || `שגיאת שרת: ${response.status}`);
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) handleFile(file);
+    });
+
+    // טיפול בבחירת קבצים
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleFile(file);
+    });
+
+    async function handleFile(file) {
+        if (!file.type.startsWith('audio/')) {
+            alert('אנא העלה קובץ אודיו בלבד');
+            return;
         }
 
-        const data = await response.json();
-        transcription.textContent = data.text;
-        status.textContent = 'התמלול הושלם בהצלחה!';
+        status.textContent = 'מעבד את הקובץ...';
+        progress.style.display = 'block';
+        transcription.textContent = '';
 
-    } catch (error) {
-        status.textContent = 'אירעה שגיאה: ' + error.message;
-        console.error('Error:', error);
+        try {
+            // המרת הקובץ לזרם נתונים
+            const fileStream = await file.arrayBuffer();
+            
+            // שימוש ב-SDK של GROQ
+            const response = await groq.audio.transcriptions.create({
+                file: new Uint8Array(fileStream),
+                model: "whisper-large-v3-turbo",
+                response_format: "verbose_json",
+                language: "he"
+            });
+
+            transcription.textContent = response.text;
+            status.textContent = 'התמלול הושלם בהצלחה!';
+
+        } catch (error) {
+            status.textContent = 'אירעה שגיאה: ' + error.message;
+            console.error('Error:', error);
+        }
+
+        progress.style.display = 'none';
     }
-
-    progress.style.display = 'none';
-}
+});
