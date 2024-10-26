@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const status = document.getElementById('status');
     const transcription = document.getElementById('transcription');
 
-    // יצירת מופע של GROQ
-    const groq = new GroqClient({
+    // יצירת מופע של GroqClient
+    const groq = new window.GroqClient({
         apiKey: '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'
     });
 
