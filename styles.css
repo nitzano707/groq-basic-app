@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.upload-area {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    margin: 20px 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.upload-area.dragover {
+    background-color: #e1e1e1;
+    border-color: #999;
+}
+
+.progress-container {
+    margin: 10px 0;
+}
+
+#progress {
+    width: 100%;
+    height: 20px;
+    margin-top: 5px;
+}
+
+.transcription-container {
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 20px 0;
+    overflow-y: auto;
+    padding: 20px;
+    background: #fff;
+}
+
+.segments-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.segments-table th {
+    background-color: #f4f4f4;
+    padding: 10px;
+    text-align: right;
+    border-bottom: 2px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.segments-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.segments-table .timestamp {
+    font-family: monospace;
+    color: #666;
+    width: 100px;
+}
+
+.status {
+    color: #2c5282;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+#fileInput {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.download-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.download-btn:hover {
+    background-color: #45a049;
+}
+
+.transcription-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
