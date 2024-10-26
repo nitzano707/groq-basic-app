@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>תמלול אודיו עם GROQ</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- נעביר את הספריות לhead -->
-    <script src="https://cdn.jsdelivr.net/npm/@groq/groq-sdk@latest/dist/umd/index.js"></script>
 </head>
 <body>
     <h1>תמלול אודיו בעברית</h1>
@@ -28,17 +26,30 @@
         <div id="transcription"></div>
     </div>
 
-    <!-- נטען את הסקריפט שלנו רק אחרי שה-SDK נטען -->
+    <!-- טעינת הסקריפטים -->
     <script>
-        window.onload = function() {
-            if (typeof GroqClient !== 'undefined') {
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
-                script.src = 'script.js';
-                document.body.appendChild(script);
-            } else {
-                console.error('GROQ SDK not loaded properly');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        async function initApp() {
+            try {
+                // טעינת ה-SDK
+                await loadScript('https://cdn.jsdelivr.net/npm/@groq/groq-sdk@latest/dist/umd/index.js');
+                // טעינת הקוד שלנו
+                await loadScript('script.js');
+            } catch (error) {
+                console.error('Error loading scripts:', error);
             }
-        };
+        }
+
+        initApp();
     </script>
 </body>
 </html>
