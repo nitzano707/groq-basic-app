@@ -5,10 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const status = document.getElementById('status');
     const transcription = document.getElementById('transcription');
 
-    // יצירת מופע של GROQ
-    const groq = new Groq({
-        apiKey: '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'
-    });
+    const API_KEY = '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'; // החלף עם המפתח שלך
 
     // טיפול בגרירת קבצים
     dropZone.addEventListener('dragover', (e) => {
@@ -48,18 +45,25 @@ document.addEventListener('DOMContentLoaded', () => {
         transcription.textContent = '';
 
         try {
-            // המרת הקובץ לזרם נתונים
-            const fileStream = await file.arrayBuffer();
-            
-            // שימוש ב-SDK של GROQ
-            const response = await groq.audio.transcriptions.create({
-                file: new Uint8Array(fileStream),
-                model: "whisper-large-v3-turbo",
-                response_format: "verbose_json",
-                language: "he"
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('model', 'whisper-large-v3-turbo');
+            formData.append('language', 'he');
+
+            const response = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${API_KEY}`
+                },
+                body: formData
             });
 
-            transcription.textContent = response.text;
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            transcription.textContent = data.text;
             status.textContent = 'התמלול הושלם בהצלחה!';
 
         } catch (error) {
