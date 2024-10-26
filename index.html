@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>GROQ בסיסי</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>דוגמה בסיסית ל-GROQ</h1>
+    <textarea id="userInput" placeholder="הקלד את השאלה שלך כאן..."></textarea>
+    <button onclick="sendMessage()">שלח שאלה</button>
+    <div id="response"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
