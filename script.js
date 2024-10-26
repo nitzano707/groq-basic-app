@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadBtn = document.getElementById('downloadBtn');
 
     const groq = new GroqClient({
-        apiKey: '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'
+        apiKey: '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' // יש להכניס מפתח API חוקי
     });
 
     async function handleFile(file) {
@@ -33,10 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp_granularities: ["segment"]
             });
 
-            // יצירת כותרת
             const title = `תמלול אודיו מתוך קובץ "${file.name}"`;
             
-            // יצירת טבלת סגמנטים
             let tableHTML = `
                 <div class="transcription-title">${title}</div>
                 <table class="segments-table">
@@ -62,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             tableHTML += '</tbody></table>';
             transcription.innerHTML = tableHTML;
             
-            // הפעלת כפתור ההורדה
             downloadBtn.style.display = 'block';
             downloadBtn.onclick = () => downloadTranscription(title, response.segments);
             
@@ -100,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
         URL.revokeObjectURL(url);
     }
 
-    // Event Listeners
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
         dropZone.classList.add('dragover');
