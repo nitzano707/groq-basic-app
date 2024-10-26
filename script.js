@@ -1,3 +1,5 @@
+const { GroqClient } = Groq;  // הוספנו את זה בהתחלה
+
 document.addEventListener('DOMContentLoaded', () => {
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
