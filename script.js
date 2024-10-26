@@ -13,30 +13,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // טיפול בגרירת קבצים
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         dropZone.classList.add('dragover');
     });
 
-    dropZone.addEventListener('dragleave', () => {
+    dropZone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         dropZone.classList.remove('dragover');
     });
 
     dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         dropZone.classList.remove('dragover');
         const file = e.dataTransfer.files[0];
         if (file) handleFile(file);
     });
 
-    // טיפול בבחירת קבצים דרך קליק
-    dropZone.onclick = () => {
-        fileInput.click();
-    };
-
-    // טיפול בבחירת קבצים דרך input
-    fileInput.onchange = (e) => {
+    // טיפול בבחירת קבצים
+    fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) handleFile(file);
-    };
+    });
 
     async function handleFile(file) {
         if (!file.type.startsWith('audio/')) {
