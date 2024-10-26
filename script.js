@@ -1,4 +1,5 @@
-const { GroqClient } = Groq;  // הוספנו את זה בהתחלה
+// ייבוא נכון של GroqClient
+const { GroqClient } = Groq;
 
 document.addEventListener('DOMContentLoaded', () => {
     const dropZone = document.getElementById('dropZone');
@@ -8,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const transcription = document.getElementById('transcription');
     const downloadBtn = document.getElementById('downloadBtn');
 
+    // הגדרת הלקוח של Groq עם מפתח API
     const groq = new GroqClient({
         apiKey: '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'
     });
@@ -99,28 +101,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-
-    // Event Listeners
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
-        if (file) handleFile(file);
-    });
-
-    fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) handleFile(file);
-    });
-});
+        URL.revokeOb
