@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // יצירת מופע של GROQ
     const groq = new GroqClient({
-        apiKey: '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'
+        apiKey: 'YOUR_GROQ_API_KEY'
     });
 
     // טיפול בגרירת קבצים
