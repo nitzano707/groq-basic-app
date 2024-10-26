@@ -16,6 +16,7 @@
             text-align: center;
             margin: 20px 0;
             cursor: pointer;
+            position: relative; /* הוספנו */
         }
         .upload-area.dragover {
             background-color: #e1e1e1;
@@ -37,6 +38,15 @@
             color: #666;
             margin: 10px 0;
         }
+        #fileInput {
+            position: absolute; /* שינוי */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -44,14 +54,14 @@
     
     <div class="upload-area" id="dropZone">
         <p>גרור קובץ אודיו לכאן או לחץ לבחירת קובץ</p>
-        <input type="file" id="fileInput" accept="audio/*" style="display: none;">
+        <input type="file" id="fileInput" accept="audio/*">
     </div>
 
     <progress id="progress" value="0" max="100"></progress>
     <div class="status" id="status"></div>
     <div id="transcription"></div>
 
-   <script src="https://unpkg.com/@groq/groq-sdk"></script>
-<script src="script.js"></script>
+    <script src="https://unpkg.com/@groq/groq-sdk"></script>
+    <script src="script.js"></script>
 </body>
 </html>
