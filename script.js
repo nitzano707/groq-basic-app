@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initializeApp() {
    const dropZone = document.getElementById('dropZone');
    const fileInput = document.getElementById('fileInput');
    const progress = document.getElementById('progress');
@@ -121,4 +121,17 @@ document.addEventListener('DOMContentLoaded', () => {
        const file = e.target.files[0];
        if (file) handleFile(file);
    });
-});
+}
+
+// בדיקה שה-SDK נטען
+if (typeof GroqClient !== 'undefined') {
+   initializeApp();
+} else {
+   window.addEventListener('load', () => {
+       if (typeof GroqClient !== 'undefined') {
+           initializeApp();
+       } else {
+           console.error('GROQ SDK not loaded properly');
+       }
+   });
+}
