@@ -1,11 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const progress = document.getElementById('progress');
     const status = document.getElementById('status');
     const transcription = document.getElementById('transcription');
 
-    const API_KEY = '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'; // החלף עם המפתח שלך
+    // יצירת מופע של GROQ
+    const groq = new GroqClient({
+        apiKey: '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'
+    });
 
     // טיפול בגרירת קבצים
     dropZone.addEventListener('dragover', (e) => {
@@ -45,25 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
         transcription.textContent = '';
 
         try {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('model', 'whisper-large-v3-turbo');
-            formData.append('language', 'he');
-
-            const response = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${API_KEY}`
-                },
-                body: formData
+            const fileStream = await file.arrayBuffer();
+            
+            const response = await groq.audio.transcriptions.create({
+                file: new Uint8Array(fileStream),
+                model: "whisper-large-v3-turbo",
+                language: "he"
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            transcription.textContent = data.text;
+            transcription.textContent = response.text;
             status.textContent = 'התמלול הושלם בהצלחה!';
 
         } catch (error) {
