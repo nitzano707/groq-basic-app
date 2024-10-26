@@ -27,15 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file) handleFile(file);
     });
 
-    // טיפול בבחירת קבצים
-    dropZone.addEventListener('click', () => {
+    // טיפול בבחירת קבצים דרך קליק
+    dropZone.onclick = () => {
         fileInput.click();
-    });
+    };
 
-    fileInput.addEventListener('change', (e) => {
+    // טיפול בבחירת קבצים דרך input
+    fileInput.onchange = (e) => {
         const file = e.target.files[0];
         if (file) handleFile(file);
-    });
+    };
 
     async function handleFile(file) {
         if (!file.type.startsWith('audio/')) {
